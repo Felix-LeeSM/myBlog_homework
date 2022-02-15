@@ -27,8 +27,6 @@ router.get('/', async (req, res) => {
     }
     //제목, 작성자명, 작성 날짜를 조회하기
 
-    console.log(posts)
-
     if (posts.length) {
         return res.json(posts);
     }
