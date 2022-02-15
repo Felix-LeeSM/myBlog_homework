@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     const { postId, postTitle, postAuthor, postDate, order } = req.query;
 
     if (postId) {
-        return await Post.find({ postId });
+        return await Post.find({ postId: Number(postId) });
     }
 
     let posts = await Post.find();
