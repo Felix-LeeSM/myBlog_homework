@@ -45,6 +45,8 @@ router.post('/write', async (req, res) => {
         const postId = 1;
     }
 
+    console.log(postId);
+
     const { postAuthor, postTitle, postBody } = req.body;
 
     const today = new Date();
