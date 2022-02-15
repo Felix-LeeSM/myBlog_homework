@@ -39,10 +39,11 @@ router.get('/', async (req, res) => {
 // /post/write
 router.post('/write', async (req, res) => {
     const post = await Post.find();
+    let postId;
     if (post.length) {
-        const postId = post[post.length - 1].postId + 1;
+        postId = post[post.length - 1].postId + 1;
     } else {
-        const postId = 1;
+        postId = 1;
     }
 
     console.log(postId);
