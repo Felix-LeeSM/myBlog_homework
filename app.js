@@ -24,7 +24,7 @@ app.use('/comment', [commentRouter]);
 
 
 app.get('/', (req, res) => {
-    res.send("Hello World");
+    res.redirect('http://seungmin.shop/post');
 });
 
 app.listen(port, () => {
