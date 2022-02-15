@@ -3,7 +3,7 @@ const Comments = require('../schemas/comment.js');
 const Posts = require('../schemas/post.js');
 const router = express.Router();
 
-router.get('/comment/:postId', async (req, res) => {
+router.get('/:postId', async (req, res) => {
     const { postId } = req.params;
     const order = req.query;
     const comments = await Comments.find({ postId: Number(postId) });
@@ -22,7 +22,7 @@ router.get('/comment/:postId', async (req, res) => {
     res.send(comments);
 });
 
-router.post('/comment/:postId', async (req, res) => {
+router.post('/write/:postId', async (req, res) => {
     const { postId } = req.params;
     const { commentAuthor, commentBody } = req.body;
 
@@ -59,7 +59,7 @@ router.post('/comment/:postId', async (req, res) => {
     res.json({ success: true });
 });
 
-router.put('/comment/:commentId', async (req, res) => {
+router.put('/write/:commentId', async (req, res) => {
     const { commentId } = req.params;
     const { commentBody } = req.body;
 
@@ -86,7 +86,7 @@ router.put('/comment/:commentId', async (req, res) => {
     res.json({ success: true });
 });
 
-router.delete('/comment/:commentId', async (req, res) => {
+router.delete('/delete/:commentId', async (req, res) => {
     const { commentId } = req.params;
     const comment = await Comments.find({ commentId: Number(commentId) });
 

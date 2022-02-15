@@ -4,8 +4,13 @@ const Post = require('../schemas/post.js');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
+    const { postId, postTitle, postAuthor, postDate, order } = req.query;
+
+    if (postId) {
+        return await Post.find({ postId });
+    }
+
     let posts = await Post.find();
-    const { postTitle, postAuthor, postDate, order } = req.query
 
     if (postTitle) {
         posts = posts.filter((post) => post.postTitle === postTitle);
@@ -17,11 +22,8 @@ router.get('/', async (req, res) => {
         posts = posts.filter((post) => post.postDate === Number(postDate));
     }
     if (order === '1') {
-        posts.sort((prev, present) => prev.postDate - present.postDate
-        );
+        posts.sort((prev, present) => present.postDate - prev.postDate);
     }
-
-    console.log(posts);
     //제목, 작성자명, 작성 날짜를 조회하기
 
     if (posts.length) {
@@ -68,6 +70,18 @@ router.put('/write/:postId', async (req, res) => {
         }
     });
     res.json({ success: true })
+});
+
+router.delete('/delete/:postId', async (req, res) => {
+    const { postId } = req.params;
+
+    const post = await Post.find({ postId: Number(postId) });
+    if (!post.length) {
+        return res.status(400).json({ success: false, errorMessage: '해당 게시글은 존재하지 않습니다.' });
+    }
+    await Post.deleteOne({ postId: Number(postId) });
+    await Comments.deleteMany({ postId: Number(postId) });
+    res.json({ success: true });
 });
 
 router.get('/:postId', async (req, res) => {

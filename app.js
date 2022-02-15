@@ -19,7 +19,8 @@ app.use(cors());
 app.use(express.json());
 app.use(logger);
 
-app.use('/post', [postRouter, commentRouter]);
+app.use('/post', [postRouter]);
+app.use('/comment', [commentRouter]);
 
 
 app.get('/', (req, res) => {
