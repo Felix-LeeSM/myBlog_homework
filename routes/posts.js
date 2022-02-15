@@ -39,7 +39,12 @@ router.get('/', async (req, res) => {
 // /post/write
 router.post('/write', async (req, res) => {
     const post = await Post.find();
-    const postId = post[post.length - 1].postId + 1;
+    if (post.length) {
+        const postId = post[post.length - 1].postId + 1;
+    } else {
+        const postId = 1;
+    }
+
     const { postAuthor, postTitle, postBody } = req.body;
 
     const today = new Date();
