@@ -5,12 +5,13 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     const { postId, postTitle, postAuthor, postDate, order } = req.query;
+    let posts;
 
     if (postId) {
-        return await Post.find({ postId: Number(postId) });
+        posts = await Post.find({ postId: Number(postId) });
+    } else {
+        posts = await Post.find();
     }
-
-    let posts = await Post.find();
 
     if (postTitle) {
         posts = posts.filter((post) => post.postTitle === postTitle);
@@ -25,6 +26,8 @@ router.get('/', async (req, res) => {
         posts.sort((prev, present) => present.postDate - prev.postDate);
     }
     //제목, 작성자명, 작성 날짜를 조회하기
+
+    console.log(posts)
 
     if (posts.length) {
         return res.json(posts);
@@ -45,8 +48,6 @@ router.post('/write', async (req, res) => {
     } else {
         postId = 1;
     }
-
-    console.log(postId);
 
     const { postAuthor, postTitle, postBody } = req.body;
 
