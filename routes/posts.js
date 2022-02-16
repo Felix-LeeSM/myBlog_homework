@@ -40,11 +40,11 @@ router.get('/', async (req, res) => {
 // /post/write
 router.post('/write', async (req, res) => {
     const post = await Post.find();
-    let postId;
-    if (post.length) {
-        postId = post[post.length - 1].postId + 1;
-    } else {
-        postId = 1;
+    const maxPostId = await Post.findOne().sort('-postId').exec();
+    let postId = 1
+
+    if (maxPostId) {
+        postId = maxPostId.postId + 1
     }
 
     const { postAuthor, postTitle, postBody } = req.body;
