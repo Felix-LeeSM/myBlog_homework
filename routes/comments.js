@@ -41,8 +41,13 @@ router.post('/write/:postId', async (req, res) => {
         })
     }
 
-    const comments = await Comments.find();
-    const commentId = comments[comments.length - 1].commentId + 1;
+    const maxCommentId = await Comment.findOne().sort('-commentId').exec();
+    let commentId = 1
+
+    if (maxCommentId) {
+        commentId = maxCommentId.commentId + 1
+    }
+
     const today = new Date();
     const month = today.getMonth() > 9 ? `${today.getMonth() + 1}` : `0${today.getMonth() + 1}`;
     const day = today.getDate() > 9 ? `${today.getDate()}` : `0${today.getDate()}`;

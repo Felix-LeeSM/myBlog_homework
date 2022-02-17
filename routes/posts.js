@@ -39,7 +39,6 @@ router.get('/', async (req, res) => {
 
 // /post/write
 router.post('/write', async (req, res) => {
-    const post = await Post.find();
     const maxPostId = await Post.findOne().sort('-postId').exec();
     let postId = 1
 
